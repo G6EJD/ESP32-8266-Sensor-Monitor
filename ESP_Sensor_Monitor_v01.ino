@@ -72,7 +72,7 @@ void setup(void){
   } 
   #ifdef ESP32
     SPI.begin(18,19,23); // Pins for most ESP32 boards. (SCK,MOSI,MISO)
-    // Note: SD_Card readers on the ESP32 will NOT work unless there is a pull-up on MISO, either do this or wire one on (1K to 4K7)
+    // Note: SD_Card readers on the ESP32 and some/most ESP8266 will NOT work unless there is a pull-down on SS, either do this or wire one on (1K to 4K7)
     pinMode(19,INPUT_PULLUP);
     pinMode(23,INPUT_PULLUP);
   #endif
@@ -86,7 +86,7 @@ void setup(void){
     Serial.println(F("Card initialised... data logging enabled..."));
     SD_present = true; 
   }
-  // Note: Using the ESP32 and SD_Card readers requires a 1K to 4K7 pull-up to 3v3 on the MISO line, otherwise they do-not function.
+  // Note: Using the ESP32 and SD_Card readers requires a 1K to 4K7 pull-down to Gnd on the SS line, otherwise they do-not function.
   //----------------------------------------------------------------------   
   ///////////////////////////// Request commands
   server.on("/",            HomePage);
