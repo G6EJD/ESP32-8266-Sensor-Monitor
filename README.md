@@ -1,7 +1,7 @@
 # ESP32-8266-Sensor-Monitor
 An ESP32/8266 is used to receive sensor data from clients and then log and display the results
 
-A sensor monitor that receives and displays on a webpage client data, usually from an ESP configured as a sensor
+A sensor monitor that receives and displays on a webpage client data, usually from an ESP configured as a sensor. The design does nto use units for any data, you decide on that. For example if the sensor uploads 70 (in deg-F) it will display 70, you then need to set the channel units to deg-F. The software preloads some fileds with °C which may be displayed on your browser as A°C to resolve this go back to the channel setup and delete the leading (escape character) A then the display will be correct. so a fil;ed contens for units that was showing 'A°C' becomes '°C'.
 
 Download the files to your IDE location.Locate the files referenced in the Server and Clients, download those and place in your Libraries folderChoose an IP address for your Server e.g. 192.168.0.99
 
