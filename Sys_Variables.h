@@ -1,8 +1,10 @@
 #define ServerVersion "1.0"
-String webpage = "";
-bool   AUpdate = true; // Default value is On
+String  webpage = "";
+bool    AUpdate = true; // Default value is On
+const byte number_of_channels = 7;     // **** MAXIMUM Of 12 and ensure this is the required Number of Channels + 1 e.g. for 6 channels set this value to 7
+// NOTE: ******************* FOR EACH increase or decrease in number_of_channels change lines 441 onwards accordingly, otherwise there will be compilation errors out-of-bounds
+// This is until the compiler errors can be fixed. Currently 1.0.0 for ESP32
 
-#define number_of_channels  7          // **** Ensure this is required Number of Channels + 1 e.g. 6 channels then there must be 7 here
 #define display_records     500        // 500 is the maximum of readings that can be displayed on the graph
 #define graph_step          250        // The amount the graph is moved forwards/backwards
 #define BaseTime            1514764800 // 00:00:00 01/01/2018
@@ -44,7 +46,7 @@ typedef struct {
   int    Updated      = BaseTime;
 } sensor_details_type;
 
-sensor_details_type ChannelData[number_of_channels+1];
+sensor_details_type ChannelData[number_of_channels];
 
 typedef struct { 
   byte   sensornumber;        // Sensor number provided by e.g. Sensor=3
