@@ -48,6 +48,8 @@ WiFiMulti wifiMulti;
 WebServer server(80);
 #endif
 
+
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void setup(void) {
   Serial.begin(115200);
@@ -91,27 +93,27 @@ void setup(void) {
   ///////////////////////////// Server Commands that will be responded to
   server.on("/",            HomePage);
   server.on("/test", []()  {
-    server.send(200, "text/plain", "Server status is OK");
+  server.send(200, "text/plain", "Server status is OK");
   }); // Simple server test by providing a status response
-  server.on("/sensor",      HandleSensors);   // Now associate the handler functions to the path of each function
-  server.on("/Liveview",    DisplaySensors);
-  server.on("/Iconview",    DisplayLocations);
-  server.on("/Csetup",      ChannelSetup);
-  server.on("/AUpdate",     Auto_Update);
-  server.on("/Help",        Help);
-  server.on("/Cstream",     Channel_File_Stream);
-  server.on("/Cdownload",   Channel_File_Download);
-  server.on("/Odownload",   File_Download);
-  server.on("/Cupload",     Channel_File_Upload);
-  server.on("/Cerase",      Channel_File_Erase);
-  server.on("/Oerase",      File_Erase);
+  server.on("/sensor",      HandleSensors );   // Now associate the handler functions to the path of each function
+  server.on("/Liveview",    DisplaySensors );
+  server.on("/Iconview",    DisplayLocations );
+  server.on("/Csetup",      ChannelSetup );
+  server.on("/AUpdate",     Auto_Update );
+  server.on("/Help",        Help );
+  server.on("/Cstream",     Channel_File_Stream );
+  server.on("/Cdownload",   Channel_File_Download );
+  server.on("/Odownload",   File_Download );
+  server.on("/Cupload",     Channel_File_Upload );
+  server.on("/Cerase",      Channel_File_Erase );
+  server.on("/Oerase",      File_Erase );
   server.on("/upload", HTTP_POST, []() {
     server.send(200);
   }, handleFileUpload);
-  server.on("/SDdir",       SD_dir);
-  server.on("/chart",       DrawChart);
-  server.on("/forward",     MoveChartForward);
-  server.on("/reverse",     MoveChartBack);
+  server.on("/SDdir",       SD_dir );
+  server.on("/chart",       DrawChart );
+  server.on("/forward",     MoveChartForward );
+  server.on("/reverse",     MoveChartBack );
   server.onNotFound(handleNotFound);  // When a client requests an unknown URI for example something other than "/")
   ///////////////////////////// End of Request commands
   server.begin();
@@ -418,7 +420,7 @@ void HandleSensors() { //Server request handler
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void DisplaySensors() {
-  byte resolution = 1; // 1 = 20.2 or 2 = 20.23 or 3 = 20.234 displayed data if the sensor supports the resolution
+  const byte resolution = 1; // 1 = 20.2 or 2 = 20.23 or 3 = 20.234 displayed data if the sensor supports the resolution
   SendHTML_Header(refresh_on);
   webpage = F("<hr />");
   if (!ReceivedAnySensor()) {
@@ -431,19 +433,19 @@ void DisplaySensors() {
     webpage += F("<div style='overflow-x:auto;'>");  // Add horizontal scrolling if number of fields exceeds page width
     webpage += F("<table style='width:100%'><tr><th style='width:4%'>Sensor Name</th>");
     // NOTE: ****** You might think there is a more efficient way to do the next section, there is, except using a FOR loop, but the ESP32 gives stack errors, it's a compiler error!!
-    if (SensorData[0].sensornumber  != 0 && SensorData[0].sensornumber  <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[0].sensornumber].Name)+"</th>";
-    if (SensorData[1].sensornumber  != 0 && SensorData[1].sensornumber  <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[1].sensornumber].Name)+"</th>";
-    if (SensorData[2].sensornumber  != 0 && SensorData[2].sensornumber  <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[2].sensornumber].Name)+"</th>";
-    if (SensorData[3].sensornumber  != 0 && SensorData[3].sensornumber  <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[3].sensornumber].Name)+"</th>";
-    if (SensorData[4].sensornumber  != 0 && SensorData[4].sensornumber  <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[4].sensornumber].Name)+"</th>";
-    if (SensorData[5].sensornumber  != 0 && SensorData[5].sensornumber  <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[5].sensornumber].Name)+"</th>";
-    if (SensorData[6].sensornumber  != 0 && SensorData[6].sensornumber  <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[6].sensornumber].Name)+"</th>";
-//    if (SensorData[7].sensornumber  != 0 && SensorData[7].sensornumber  <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[7].sensornumber].Name)+"</th>";
-//    if (SensorData[8].sensornumber  != 0 && SensorData[8].sensornumber  <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[8].sensornumber].Name)+"</th>";
-//    if (SensorData[9].sensornumber  != 0 && SensorData[9].sensornumber  <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[9].sensornumber].Name)+"</th>";
-//    if (SensorData[10].sensornumber != 0 && SensorData[10].sensornumber <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[10].sensornumber].Name)+"</th>";
-//    if (SensorData[11].sensornumber != 0 && SensorData[11].sensornumber <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[11].sensornumber].Name)+"</th>";
-//    if (SensorData[12].sensornumber != 0 && SensorData[12].sensornumber <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[12].sensornumber].Name)+"</th>";
+    if (SensorData[0].sensornumber  != 0 && SensorData[0].sensornumber  <= number_of_channels) webpage += "<th>" + String(ChannelData[SensorData[0].sensornumber].Name) + "</th>";
+    if (SensorData[1].sensornumber  != 0 && SensorData[1].sensornumber  <= number_of_channels) webpage += "<th>" + String(ChannelData[SensorData[1].sensornumber].Name) + "</th>";
+    if (SensorData[2].sensornumber  != 0 && SensorData[2].sensornumber  <= number_of_channels) webpage += "<th>" + String(ChannelData[SensorData[2].sensornumber].Name) + "</th>";
+    if (SensorData[3].sensornumber  != 0 && SensorData[3].sensornumber  <= number_of_channels) webpage += "<th>" + String(ChannelData[SensorData[3].sensornumber].Name) + "</th>";
+    if (SensorData[4].sensornumber  != 0 && SensorData[4].sensornumber  <= number_of_channels) webpage += "<th>" + String(ChannelData[SensorData[4].sensornumber].Name) + "</th>";
+    if (SensorData[5].sensornumber  != 0 && SensorData[5].sensornumber  <= number_of_channels) webpage += "<th>" + String(ChannelData[SensorData[5].sensornumber].Name) + "</th>";
+    if (SensorData[6].sensornumber  != 0 && SensorData[6].sensornumber  <= number_of_channels) webpage += "<th>" + String(ChannelData[SensorData[6].sensornumber].Name) + "</th>";
+    //    if (SensorData[7].sensornumber  != 0 && SensorData[7].sensornumber  <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[7].sensornumber].Name)+"</th>";
+    //    if (SensorData[8].sensornumber  != 0 && SensorData[8].sensornumber  <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[8].sensornumber].Name)+"</th>";
+    //    if (SensorData[9].sensornumber  != 0 && SensorData[9].sensornumber  <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[9].sensornumber].Name)+"</th>";
+    //    if (SensorData[10].sensornumber != 0 && SensorData[10].sensornumber <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[10].sensornumber].Name)+"</th>";
+    //    if (SensorData[11].sensornumber != 0 && SensorData[11].sensornumber <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[11].sensornumber].Name)+"</th>";
+    //    if (SensorData[12].sensornumber != 0 && SensorData[12].sensornumber <= number_of_channels) webpage += "<th>"+String(ChannelData[SensorData[12].sensornumber].Name)+"</th>";
     webpage += F("</tr><tr><td style='width:4%'>Sensor Number</td>");
     if ((SensorData[0].sensornumber != 0)  && (SensorData[0].sensornumber  <= number_of_channels)) webpage += "<td>" + String(SensorData[0].sensornumber) + "</td>";
     if ((SensorData[1].sensornumber != 0)  && (SensorData[1].sensornumber  <= number_of_channels)) webpage += "<td>" + String(SensorData[1].sensornumber) + "</td>";
@@ -452,12 +454,12 @@ void DisplaySensors() {
     if ((SensorData[4].sensornumber != 0)  && (SensorData[4].sensornumber  <= number_of_channels)) webpage += "<td>" + String(SensorData[4].sensornumber) + "</td>";
     if ((SensorData[5].sensornumber != 0)  && (SensorData[5].sensornumber  <= number_of_channels)) webpage += "<td>" + String(SensorData[5].sensornumber) + "</td>";
     if ((SensorData[6].sensornumber != 0)  && (SensorData[6].sensornumber  <= number_of_channels)) webpage += "<td>" + String(SensorData[6].sensornumber) + "</td>";
-//    if ((SensorData[7].sensornumber != 0)  && (SensorData[7].sensornumber  <= number_of_channels)) webpage += "<td>" + String(SensorData[7].sensornumber) + "</td>";
-//    if ((SensorData[8].sensornumber != 0)  && (SensorData[8].sensornumber  <= number_of_channels)) webpage += "<td>" + String(SensorData[8].sensornumber) + "</td>";
-//    if ((SensorData[9].sensornumber != 0)  && (SensorData[9].sensornumber  <= number_of_channels)) webpage += "<td>" + String(SensorData[9].sensornumber) + "</td>";
-//    if ((SensorData[10].sensornumber != 0) && (SensorData[10].sensornumber <= number_of_channels)) webpage += "<td>" + String(SensorData[10].sensornumber) + "</td>";
-//    if ((SensorData[11].sensornumber != 0) && (SensorData[11].sensornumber <= number_of_channels)) webpage += "<td>" + String(SensorData[11].sensornumber) + "</td>";
-//    if ((SensorData[12].sensornumber != 0) && (SensorData[12].sensornumber <= number_of_channels)) webpage += "<td>" + String(SensorData[12].sensornumber) + "</td>";
+    //    if ((SensorData[7].sensornumber != 0)  && (SensorData[7].sensornumber  <= number_of_channels)) webpage += "<td>" + String(SensorData[7].sensornumber) + "</td>";
+    //    if ((SensorData[8].sensornumber != 0)  && (SensorData[8].sensornumber  <= number_of_channels)) webpage += "<td>" + String(SensorData[8].sensornumber) + "</td>";
+    //    if ((SensorData[9].sensornumber != 0)  && (SensorData[9].sensornumber  <= number_of_channels)) webpage += "<td>" + String(SensorData[9].sensornumber) + "</td>";
+    //    if ((SensorData[10].sensornumber != 0) && (SensorData[10].sensornumber <= number_of_channels)) webpage += "<td>" + String(SensorData[10].sensornumber) + "</td>";
+    //    if ((SensorData[11].sensornumber != 0) && (SensorData[11].sensornumber <= number_of_channels)) webpage += "<td>" + String(SensorData[11].sensornumber) + "</td>";
+    //    if ((SensorData[12].sensornumber != 0) && (SensorData[12].sensornumber <= number_of_channels)) webpage += "<td>" + String(SensorData[12].sensornumber) + "</td>";
     webpage += F("<tr><td style='width:10%'>Type</td>");
     if (SensorData[0].sensornumber != 0   && SensorData[0].sensornumber  <= number_of_channels) webpage += "<td>" + ChannelData[0].Type + "</td>";
     if (SensorData[1].sensornumber != 0   && SensorData[1].sensornumber  <= number_of_channels) webpage += "<td>" + ChannelData[1].Type + "</td>";
@@ -466,83 +468,83 @@ void DisplaySensors() {
     if (SensorData[4].sensornumber != 0   && SensorData[4].sensornumber  <= number_of_channels) webpage += "<td>" + ChannelData[4].Type + "</td>";
     if (SensorData[5].sensornumber != 0   && SensorData[5].sensornumber  <= number_of_channels) webpage += "<td>" + ChannelData[5].Type + "</td>";
     if (SensorData[6].sensornumber != 0   && SensorData[6].sensornumber  <= number_of_channels) webpage += "<td>" + ChannelData[6].Type + "</td>";
-//    if (SensorData[7].sensornumber != 0   && SensorData[7].sensornumber  <= number_of_channels) webpage += "<td>" + ChannelData[7].Type + "</td>";
-//    if (SensorData[8].sensornumber != 0   && SensorData[8].sensornumber  <= number_of_channels) webpage += "<td>" + ChannelData[8].Type + "</td>";
-//    if (SensorData[9].sensornumber != 0   && SensorData[9].sensornumber  <= number_of_channels) webpage += "<td>" + ChannelData[9].Type + "</td>";
-//    if (SensorData[10].sensornumber != 0  && SensorData[10].sensornumber <= number_of_channels) webpage += "<td>" + ChannelData[10].Type + "</td>";
-//    if (SensorData[11].sensornumber != 0  && SensorData[11].sensornumber <= number_of_channels) webpage += "<td>" + ChannelData[11].Type + "</td>";
-//    if (SensorData[12].sensornumber != 0  && SensorData[12].sensornumber <= number_of_channels) webpage += "<td>" + ChannelData[12].Type + "</td>";
+    //    if (SensorData[7].sensornumber != 0   && SensorData[7].sensornumber  <= number_of_channels) webpage += "<td>" + ChannelData[7].Type + "</td>";
+    //    if (SensorData[8].sensornumber != 0   && SensorData[8].sensornumber  <= number_of_channels) webpage += "<td>" + ChannelData[8].Type + "</td>";
+    //    if (SensorData[9].sensornumber != 0   && SensorData[9].sensornumber  <= number_of_channels) webpage += "<td>" + ChannelData[9].Type + "</td>";
+    //    if (SensorData[10].sensornumber != 0  && SensorData[10].sensornumber <= number_of_channels) webpage += "<td>" + ChannelData[10].Type + "</td>";
+    //    if (SensorData[11].sensornumber != 0  && SensorData[11].sensornumber <= number_of_channels) webpage += "<td>" + ChannelData[11].Type + "</td>";
+    //    if (SensorData[12].sensornumber != 0  && SensorData[12].sensornumber <= number_of_channels) webpage += "<td>" + ChannelData[12].Type + "</td>";
     webpage += F("</tr><tr><td>Field-1</td>");
-    if (SensorData[0].sensornumber != 0   && SensorData[0].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[0].value1, resolution) + ChannelData[0].Field1_Units + "</td>";
-    if (SensorData[1].sensornumber != 0   && SensorData[1].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[1].value1, resolution) + ChannelData[1].Field1_Units + "</td>";
-    if (SensorData[2].sensornumber != 0   && SensorData[2].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[2].value1, resolution) + ChannelData[2].Field1_Units + "</td>";
-    if (SensorData[3].sensornumber != 0   && SensorData[3].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[3].value1, resolution) + ChannelData[3].Field1_Units + "</td>";
-    if (SensorData[4].sensornumber != 0   && SensorData[4].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[4].value1, resolution) + ChannelData[4].Field1_Units + "</td>";
-    if (SensorData[5].sensornumber != 0   && SensorData[5].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[5].value1, resolution) + ChannelData[5].Field1_Units + "</td>";
-    if (SensorData[6].sensornumber != 0   && SensorData[6].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[6].value1, resolution) + ChannelData[6].Field1_Units + "</td>";
-//    if (SensorData[7].sensornumber != 0   && SensorData[7].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[7].value1, resolution) + ChannelData[7].Field1_Units + "</td>";
-//    if (SensorData[8].sensornumber != 0   && SensorData[8].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[8].value1, resolution) + ChannelData[8].Field1_Units + "</td>";
-//    if (SensorData[9].sensornumber != 0   && SensorData[9].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[9].value1, resolution) + ChannelData[9].Field1_Units + "</td>";
-//    if (SensorData[10].sensornumber != 0  && SensorData[10].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[10].value1, resolution) + ChannelData[10].Field1_Units + "</td>";
-//    if (SensorData[11].sensornumber != 0  && SensorData[11].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[11].value1, resolution) + ChannelData[11].Field1_Units + "</td>";
-//    if (SensorData[12].sensornumber != 0  && SensorData[12].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[12].value1, resolution) + ChannelData[12].Field1_Units + "</td>";
+    if (SensorData[0].sensornumber != 0   && SensorData[0].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[0].value1, resolution) + ChannelData[0].Field1_Units + "</td>";
+    if (SensorData[1].sensornumber != 0   && SensorData[1].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[1].value1, resolution) + ChannelData[1].Field1_Units + "</td>";
+    if (SensorData[2].sensornumber != 0   && SensorData[2].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[2].value1, resolution) + ChannelData[2].Field1_Units + "</td>";
+    if (SensorData[3].sensornumber != 0   && SensorData[3].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[3].value1, resolution) + ChannelData[3].Field1_Units + "</td>";
+    if (SensorData[4].sensornumber != 0   && SensorData[4].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[4].value1, resolution) + ChannelData[4].Field1_Units + "</td>";
+    if (SensorData[5].sensornumber != 0   && SensorData[5].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[5].value1, resolution) + ChannelData[5].Field1_Units + "</td>";
+    if (SensorData[6].sensornumber != 0   && SensorData[6].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[6].value1, resolution) + ChannelData[6].Field1_Units + "</td>";
+    //    if (SensorData[7].sensornumber != 0   && SensorData[7].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[7].value1, resolution) + ChannelData[7].Field1_Units + "</td>";
+    //    if (SensorData[8].sensornumber != 0   && SensorData[8].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[8].value1, resolution) + ChannelData[8].Field1_Units + "</td>";
+    //    if (SensorData[9].sensornumber != 0   && SensorData[9].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[9].value1, resolution) + ChannelData[9].Field1_Units + "</td>";
+    //    if (SensorData[10].sensornumber != 0  && SensorData[10].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[10].value1, resolution) + ChannelData[10].Field1_Units + "</td>";
+    //    if (SensorData[11].sensornumber != 0  && SensorData[11].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[11].value1, resolution) + ChannelData[11].Field1_Units + "</td>";
+    //    if (SensorData[12].sensornumber != 0  && SensorData[12].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[12].value1, resolution) + ChannelData[12].Field1_Units + "</td>";
     SendHTML_Content();
     webpage += F("</tr><tr><td>Field-2</td>");
-    if (SensorData[0].sensornumber != 0   && SensorData[0].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[0].value2, resolution) + ChannelData[0].Field2_Units + "</td>";
-    if (SensorData[1].sensornumber != 0   && SensorData[1].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[1].value2, resolution) + ChannelData[1].Field2_Units + "</td>";
-    if (SensorData[2].sensornumber != 0   && SensorData[2].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[2].value2, resolution) + ChannelData[2].Field2_Units + "</td>";
-    if (SensorData[3].sensornumber != 0   && SensorData[3].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[3].value2, resolution) + ChannelData[3].Field2_Units + "</td>";
-    if (SensorData[4].sensornumber != 0   && SensorData[4].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[4].value2, resolution) + ChannelData[4].Field2_Units + "</td>";
-    if (SensorData[5].sensornumber != 0   && SensorData[5].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[5].value2, resolution) + ChannelData[5].Field2_Units + "</td>";
-    if (SensorData[6].sensornumber != 0   && SensorData[6].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[6].value2, resolution) + ChannelData[6].Field2_Units + "</td>";
-//    if (SensorData[7].sensornumber != 0   && SensorData[7].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[7].value2, resolution) + ChannelData[7].Field2_Units + "</td>";
-//    if (SensorData[8].sensornumber != 0   && SensorData[8].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[8].value2, resolution) + ChannelData[8].Field2_Units + "</td>";
-//    if (SensorData[9].sensornumber != 0   && SensorData[9].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[9].value2, resolution) + ChannelData[9].Field2_Units + "</td>";
-//    if (SensorData[10].sensornumber != 0  && SensorData[10].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[10].value2, resolution) + ChannelData[10].Field2_Units + "</td>";
-//    if (SensorData[11].sensornumber != 0  && SensorData[11].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[11].value2, resolution) + ChannelData[11].Field2_Units + "</td>";
-//    if (SensorData[12].sensornumber != 0  && SensorData[12].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[12].value2, resolution) + ChannelData[12].Field2_Units + "</td>";
+    if (SensorData[0].sensornumber != 0   && SensorData[0].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[0].value2, resolution) + ChannelData[0].Field2_Units + "</td>";
+    if (SensorData[1].sensornumber != 0   && SensorData[1].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[1].value2, resolution) + ChannelData[1].Field2_Units + "</td>";
+    if (SensorData[2].sensornumber != 0   && SensorData[2].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[2].value2, resolution) + ChannelData[2].Field2_Units + "</td>";
+    if (SensorData[3].sensornumber != 0   && SensorData[3].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[3].value2, resolution) + ChannelData[3].Field2_Units + "</td>";
+    if (SensorData[4].sensornumber != 0   && SensorData[4].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[4].value2, resolution) + ChannelData[4].Field2_Units + "</td>";
+    if (SensorData[5].sensornumber != 0   && SensorData[5].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[5].value2, resolution) + ChannelData[5].Field2_Units + "</td>";
+    if (SensorData[6].sensornumber != 0   && SensorData[6].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[6].value2, resolution) + ChannelData[6].Field2_Units + "</td>";
+    //    if (SensorData[7].sensornumber != 0   && SensorData[7].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[7].value2, resolution) + ChannelData[7].Field2_Units + "</td>";
+    //    if (SensorData[8].sensornumber != 0   && SensorData[8].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[8].value2, resolution) + ChannelData[8].Field2_Units + "</td>";
+    //    if (SensorData[9].sensornumber != 0   && SensorData[9].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[9].value2, resolution) + ChannelData[9].Field2_Units + "</td>";
+    //    if (SensorData[10].sensornumber != 0  && SensorData[10].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[10].value2, resolution) + ChannelData[10].Field2_Units + "</td>";
+    //    if (SensorData[11].sensornumber != 0  && SensorData[11].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[11].value2, resolution) + ChannelData[11].Field2_Units + "</td>";
+    //    if (SensorData[12].sensornumber != 0  && SensorData[12].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[12].value2, resolution) + ChannelData[12].Field2_Units + "</td>";
     webpage += F("</tr><tr><td>Field-3</td>");
-    if (SensorData[0].sensornumber != 0   && SensorData[0].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[0].value3, resolution) + ChannelData[0].Field3_Units + "</td>";
-    if (SensorData[1].sensornumber != 0   && SensorData[1].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[1].value3, resolution) + ChannelData[1].Field3_Units + "</td>";
-    if (SensorData[2].sensornumber != 0   && SensorData[2].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[2].value3, resolution) + ChannelData[2].Field3_Units + "</td>";
-    if (SensorData[3].sensornumber != 0   && SensorData[3].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[3].value3, resolution) + ChannelData[3].Field3_Units + "</td>";
-    if (SensorData[4].sensornumber != 0   && SensorData[4].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[4].value3, resolution) + ChannelData[4].Field3_Units + "</td>";
-    if (SensorData[5].sensornumber != 0   && SensorData[5].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[5].value3, resolution) + ChannelData[5].Field3_Units + "</td>";
-    if (SensorData[6].sensornumber != 0   && SensorData[6].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[6].value3, resolution) + ChannelData[6].Field3_Units + "</td>";
-//    if (SensorData[7].sensornumber != 0   && SensorData[7].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[7].value3, resolution) + ChannelData[7].Field3_Units + "</td>";
-//    if (SensorData[8].sensornumber != 0   && SensorData[8].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[8].value3, resolution) + ChannelData[8].Field3_Units + "</td>";
-//    if (SensorData[9].sensornumber != 0   && SensorData[9].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[9].value3, resolution) + ChannelData[9].Field3_Units + "</td>";
-//    if (SensorData[10].sensornumber != 0   && SensorData[10].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[10].value3, resolution) + ChannelData[10].Field3_Units + "</td>";
-//    if (SensorData[11].sensornumber != 0   && SensorData[11].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[11].value3, resolution) + ChannelData[11].Field3_Units + "</td>";
-//    if (SensorData[12].sensornumber != 0   && SensorData[12].sensornumber <= number_of_channels) webpage += "<td>" + String(SensorData[12].value3, resolution) + ChannelData[12].Field3_Units + "</td>";
+    if (SensorData[0].sensornumber != 0   && SensorData[0].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[0].value3, resolution) + ChannelData[0].Field3_Units + "</td>";
+    if (SensorData[1].sensornumber != 0   && SensorData[1].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[1].value3, resolution) + ChannelData[1].Field3_Units + "</td>";
+    if (SensorData[2].sensornumber != 0   && SensorData[2].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[2].value3, resolution) + ChannelData[2].Field3_Units + "</td>";
+    if (SensorData[3].sensornumber != 0   && SensorData[3].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[3].value3, resolution) + ChannelData[3].Field3_Units + "</td>";
+    if (SensorData[4].sensornumber != 0   && SensorData[4].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[4].value3, resolution) + ChannelData[4].Field3_Units + "</td>";
+    if (SensorData[5].sensornumber != 0   && SensorData[5].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[5].value3, resolution) + ChannelData[5].Field3_Units + "</td>";
+    if (SensorData[6].sensornumber != 0   && SensorData[6].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[6].value3, resolution) + ChannelData[6].Field3_Units + "</td>";
+    //    if (SensorData[7].sensornumber != 0   && SensorData[7].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[7].value3, resolution) + ChannelData[7].Field3_Units + "</td>";
+    //    if (SensorData[8].sensornumber != 0   && SensorData[8].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[8].value3, resolution) + ChannelData[8].Field3_Units + "</td>";
+    //    if (SensorData[9].sensornumber != 0   && SensorData[9].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[9].value3, resolution) + ChannelData[9].Field3_Units + "</td>";
+    //    if (SensorData[10].sensornumber != 0  && SensorData[10].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[10].value3, resolution) + ChannelData[10].Field3_Units + "</td>";
+    //    if (SensorData[11].sensornumber != 0  && SensorData[11].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[11].value3, resolution) + ChannelData[11].Field3_Units + "</td>";
+    //    if (SensorData[12].sensornumber != 0  && SensorData[12].sensornumber <= number_of_channels) webpage += "<td>" + (String)(SensorData[12].value3, resolution) + ChannelData[12].Field3_Units + "</td>";
     webpage += F("</tr><tr><td>Field-4</td>");
-    if ((SensorData[0].sensornumber != 0) && (SensorData[0].sensornumber <= number_of_channels))  webpage += "<td>" + String(SensorData[0].value4, resolution) + ChannelData[0].Field4_Units + "</td>";
-    if ((SensorData[1].sensornumber != 0) && (SensorData[1].sensornumber <= number_of_channels))  webpage += "<td>" + String(SensorData[1].value4, resolution) + ChannelData[1].Field4_Units + "</td>";
-    if ((SensorData[2].sensornumber != 0) && (SensorData[2].sensornumber <= number_of_channels))  webpage += "<td>" + String(SensorData[2].value4, resolution) + ChannelData[2].Field4_Units + "</td>";
-    if ((SensorData[3].sensornumber != 0) && (SensorData[3].sensornumber <= number_of_channels))  webpage += "<td>" + String(SensorData[3].value4, resolution) + ChannelData[3].Field4_Units + "</td>";
-    if ((SensorData[4].sensornumber != 0) && (SensorData[4].sensornumber <= number_of_channels))  webpage += "<td>" + String(SensorData[4].value4, resolution) + ChannelData[4].Field4_Units + "</td>";
-    if ((SensorData[5].sensornumber != 0) && (SensorData[5].sensornumber <= number_of_channels))  webpage += "<td>" + String(SensorData[5].value4, resolution) + ChannelData[5].Field4_Units + "</td>";
-    if ((SensorData[6].sensornumber != 0) && (SensorData[6].sensornumber <= number_of_channels))  webpage += "<td>" + String(SensorData[6].value4, resolution) + ChannelData[6].Field4_Units + "</td>";
-//    if ((SensorData[7].sensornumber != 0) && (SensorData[7].sensornumber <= number_of_channels))  webpage += "<td>" + String(SensorData[7].value4, resolution) + ChannelData[7].Field4_Units + "</td>";
-//    if ((SensorData[8].sensornumber != 0) && (SensorData[8].sensornumber <= number_of_channels))  webpage += "<td>" + String(SensorData[8].value4, resolution) + ChannelData[8].Field4_Units + "</td>";
-//    if ((SensorData[9].sensornumber != 0) && (SensorData[9].sensornumber <= number_of_channels))  webpage += "<td>" + String(SensorData[9].value4, resolution) + ChannelData[9].Field4_Units + "</td>";
-//    if ((SensorData[10].sensornumber != 0) && (SensorData[10].sensornumber <= number_of_channels))  webpage += "<td>" + String(SensorData[10].value4, resolution) + ChannelData[10].Field4_Units + "</td>";
-//    if ((SensorData[11].sensornumber != 0) && (SensorData[11].sensornumber <= number_of_channels))  webpage += "<td>" + String(SensorData[11].value4, resolution) + ChannelData[11].Field4_Units + "</td>";
-//    if ((SensorData[12].sensornumber != 0) && (SensorData[12].sensornumber <= number_of_channels))  webpage += "<td>" + String(SensorData[12].value4, resolution) + ChannelData[12].Field4_Units + "</td>";
+    if ((SensorData[0].sensornumber != 0) && (SensorData[0].sensornumber <= number_of_channels)) webpage += "<td>" +  (String)(SensorData[0].value4, resolution) + ChannelData[0].Field4_Units + "</td>";
+    if ((SensorData[1].sensornumber != 0) && (SensorData[1].sensornumber <= number_of_channels)) webpage += "<td>" +  (String)(SensorData[1].value4, resolution) + ChannelData[1].Field4_Units + "</td>";
+    if ((SensorData[2].sensornumber != 0) && (SensorData[2].sensornumber <= number_of_channels)) webpage += "<td>" +  (String)(SensorData[2].value4, resolution) + ChannelData[2].Field4_Units + "</td>";
+    if ((SensorData[3].sensornumber != 0) && (SensorData[3].sensornumber <= number_of_channels)) webpage += "<td>" +  (String)(SensorData[3].value4, resolution) + ChannelData[3].Field4_Units + "</td>";
+    if ((SensorData[4].sensornumber != 0) && (SensorData[4].sensornumber <= number_of_channels)) webpage += "<td>" +  (String)(SensorData[4].value4, resolution) + ChannelData[4].Field4_Units + "</td>";
+    if ((SensorData[5].sensornumber != 0) && (SensorData[5].sensornumber <= number_of_channels)) webpage += "<td>" +  (String)(SensorData[5].value4, resolution) + ChannelData[5].Field4_Units + "</td>";
+    if ((SensorData[6].sensornumber != 0) && (SensorData[6].sensornumber <= number_of_channels)) webpage += "<td>" +  (String)(SensorData[6].value4, resolution) + ChannelData[6].Field4_Units + "</td>";
+    //    if ((SensorData[7].sensornumber != 0)  && (SensorData[7].sensornumber <= number_of_channels))  webpage += "<td>" +  (String)(SensorData[7].value4, resolution) + ChannelData[7].Field4_Units + "</td>";
+    //    if ((SensorData[8].sensornumber != 0)  && (SensorData[8].sensornumber <= number_of_channels))  webpage += "<td>" +  (String)(SensorData[8].value4, resolution) + ChannelData[8].Field4_Units + "</td>";
+    //    if ((SensorData[9].sensornumber != 0)  && (SensorData[9].sensornumber <= number_of_channels))  webpage += "<td>" +  (String)(SensorData[9].value4, resolution) + ChannelData[9].Field4_Units + "</td>";
+    //    if ((SensorData[10].sensornumber != 0) && (SensorData[10].sensornumber <= number_of_channels))  webpage += "<td>" +  (String)(SensorData[10].value4, resolution) + ChannelData[10].Field4_Units + "</td>";
+    //    if ((SensorData[11].sensornumber != 0) && (SensorData[11].sensornumber <= number_of_channels))  webpage += "<td>" +  (String)(SensorData[11].value4, resolution) + ChannelData[11].Field4_Units + "</td>";
+    //    if ((SensorData[12].sensornumber != 0) && (SensorData[12].sensornumber <= number_of_channels))  webpage += "<td>" +  (String)(SensorData[12].value4, resolution) + ChannelData[12].Field4_Units + "</td>";
     webpage += F("</tr><tr><td>Updated</td>");
-    if ((SensorData[0].sensornumber != 0) && (SensorData[0].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[0].readingtime).substring(0, 8) + "</td>";
-    if ((SensorData[1].sensornumber != 0) && (SensorData[1].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[1].readingtime).substring(0, 8) + "</td>";
-    if ((SensorData[2].sensornumber != 0) && (SensorData[2].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[2].readingtime).substring(0, 8) + "</td>";
-    if ((SensorData[3].sensornumber != 0) && (SensorData[3].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[3].readingtime).substring(0, 8) + "</td>";
-    if ((SensorData[4].sensornumber != 0) && (SensorData[4].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[4].readingtime).substring(0, 8) + "</td>";
-    if ((SensorData[5].sensornumber != 0) && (SensorData[5].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[5].readingtime).substring(0, 8) + "</td>";
-    if ((SensorData[6].sensornumber != 0) && (SensorData[6].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[6].readingtime).substring(0, 8) + "</td>";
-//    if ((SensorData[7].sensornumber != 0) && (SensorData[7].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[7].readingtime).substring(0, 8) + "</td>";
-//    if ((SensorData[8].sensornumber != 0) && (SensorData[8].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[8].readingtime).substring(0, 8) + "</td>";
-//    if ((SensorData[9].sensornumber != 0) && (SensorData[9].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[9].readingtime).substring(0, 8) + "</td>";
-//    if ((SensorData[10].sensornumber != 0) && (SensorData[10].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[10].readingtime).substring(0, 8) + "</td>";
-//    if ((SensorData[11].sensornumber != 0) && (SensorData[11].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[11].readingtime).substring(0, 8) + "</td>";
-//    if ((SensorData[12].sensornumber != 0) && (SensorData[12].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[12].readingtime).substring(0, 8) + "</td>";
+    if ((SensorData[0].sensornumber != 0) && (SensorData[0].sensornumber <= number_of_channels)); webpage += "<td>" + Time(SensorData[0].readingtime).substring(0, 8) + "</td>";
+    if ((SensorData[1].sensornumber != 0) && (SensorData[1].sensornumber <= number_of_channels)); webpage += "<td>" + Time(SensorData[1].readingtime).substring(0, 8) + "</td>";
+    if ((SensorData[2].sensornumber != 0) && (SensorData[2].sensornumber <= number_of_channels)); webpage += "<td>" + Time(SensorData[2].readingtime).substring(0, 8) + "</td>";
+    if ((SensorData[3].sensornumber != 0) && (SensorData[3].sensornumber <= number_of_channels)); webpage += "<td>" + Time(SensorData[3].readingtime).substring(0, 8) + "</td>";
+    if ((SensorData[4].sensornumber != 0) && (SensorData[4].sensornumber <= number_of_channels)); webpage += "<td>" + Time(SensorData[4].readingtime).substring(0, 8) + "</td>";
+    if ((SensorData[5].sensornumber != 0) && (SensorData[5].sensornumber <= number_of_channels)); webpage += "<td>" + Time(SensorData[5].readingtime).substring(0, 8) + "</td>";
+    if ((SensorData[6].sensornumber != 0) && (SensorData[6].sensornumber <= number_of_channels)); webpage += "<td>" + Time(SensorData[6].readingtime).substring(0, 8) + "</td>";
+    //    if ((SensorData[7].sensornumber != 0) && (SensorData[7].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[7].readingtime).substring(0, 8) + "</td>";
+    //    if ((SensorData[8].sensornumber != 0) && (SensorData[8].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[8].readingtime).substring(0, 8) + "</td>";
+    //    if ((SensorData[9].sensornumber != 0) && (SensorData[9].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[9].readingtime).substring(0, 8) + "</td>";
+    //    if ((SensorData[10].sensornumber != 0) && (SensorData[10].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[10].readingtime).substring(0, 8) + "</td>";
+    //    if ((SensorData[11].sensornumber != 0) && (SensorData[11].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[11].readingtime).substring(0, 8) + "</td>";
+    //    if ((SensorData[12].sensornumber != 0) && (SensorData[12].sensornumber <= number_of_channels)) webpage += "<td>" + Time(SensorData[12].readingtime).substring(0, 8) + "</td>";
     webpage += F("</tr></table></div>");
   }
   webpage += F("<hr /><br>");
@@ -554,7 +556,7 @@ void DisplaySensors() {
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void DisplayLocations() {
-#define resolution 1 // 1 = 20.2 or 2 = 20.23 or 3 = 20.234 displayed data if the sensor supports the resolution
+const byte resolution = 1; // 1 = 20.2 or 2 = 20.23 or 3 = 20.234 displayed data if the sensor supports the resolution
   SendHTML_Header(refresh_on);
   webpage += F("<hr />");
   if (!ReceivedAnySensor()) {
@@ -586,7 +588,7 @@ void DisplayLocations() {
       if (SensorData[s].sensornumber != 0   && SensorData[s].sensornumber <= number_of_channels)
       {
         if (ChannelData[s].Field1 != "") {
-          webpage += "<td style='text-align:center'>" + String(SensorData[s].value1, resolution) + ChannelData[s].Field1_Units + "</td>";
+          webpage += "<td style='text-align:center'>" +  (String)(SensorData[s].value1, resolution) + ChannelData[s].Field1_Units + "</td>";
         }
       }
       else webpage += F("<td></td>");
@@ -597,7 +599,7 @@ void DisplayLocations() {
       if (SensorData[s].sensornumber != 0   && SensorData[s].sensornumber <= number_of_channels)
       {
         if (ChannelData[s].Field2 != "") {
-          webpage += "<td style='text-align:center'>" + String(SensorData[s].value2, resolution) + ChannelData[s].Field2_Units + "</td>";
+          webpage += "<td style='text-align:center'>" +  (String)(SensorData[s].value2, resolution) + ChannelData[s].Field2_Units + "</td>";
         }
       }
       else webpage += F("<td></td>");
@@ -607,7 +609,7 @@ void DisplayLocations() {
       if (SensorData[s].sensornumber != 0   && SensorData[s].sensornumber <= number_of_channels)
       {
         if (ChannelData[s].Field3 != "") {
-          webpage += "<td style='text-align:center'>" + String(SensorData[s].value3, resolution) + ChannelData[s].Field3_Units + "</td>";
+          webpage += "<td style='text-align:center'>" +  (String)(SensorData[s].value3, resolution) + ChannelData[s].Field3_Units + "</td>";
         }
       }
       else webpage += F("<td></td>");
@@ -617,11 +619,11 @@ void DisplayLocations() {
       if (SensorData[s].sensornumber != 0   && SensorData[s].sensornumber <= number_of_channels) {
         if (ChannelData[s].Field4 != "")
         {
-          webpage += "<td style='text-align:center'>" + String(SensorData[s].value4, resolution) + ChannelData[s].Field4_Units + "</td>";
+          webpage += "<td style='text-align:center'>" +  (String)(SensorData[s].value4, resolution) + ChannelData[s].Field4_Units + "</td>";
         }
       } else webpage += F("<td></td>");
     }
-    webpage += F("</tr><tr>");
+   webpage += F("</tr><tr>");
     for (int s = 1; s <= number_of_channels; s++) {
       if ((SensorData[s].sensornumber != 0) && (SensorData[s].sensornumber <= number_of_channels))
         webpage += "<td style='text-align:center'>" + Time(SensorData[s].readingtime).substring(0, 8) + "</td>";
